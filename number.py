@@ -32,7 +32,6 @@ class Number:
             ) 
             self.labels.append(butt)
         
-        print(self.batch)
 
 
     def draw(self) -> None:

@@ -1,3 +1,4 @@
+from kgo_lib.timer import Timer
 from number import Number
 
 from pyglet.text import Label
@@ -21,11 +22,13 @@ class Game(pyglet.window.Window):
         self.main_menu_label_1 = Label(text="Falling Numbers", x=10, y=460, font_size=36)
 
         self.current_number.add_to_screen()
+        self.test_timer: Timer = Timer(5)
     
     def setup(self):
         self.state = GameStates.MAIN_MENU
         self.state = 1
         pyglet.clock.schedule_interval(self.on_update, 1/60.0)
+        self.test_timer.start()
         print('ready')
     
     def _draw(self):
@@ -35,7 +38,7 @@ class Game(pyglet.window.Window):
             self._draw_gameplay()
 
     def _update(self, dt):
-        print(dt)
+        self.test_timer.update(dt)
         return
     
     def on_key_press(self, symbol, modifiers):
