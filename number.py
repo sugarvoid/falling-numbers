@@ -1,6 +1,12 @@
 
 from pyglet.text import Label
 from pyglet.graphics import Batch
+from pyglet import font
+
+font.add_file("PeaberryMono.ttf")
+print('loading font')
+font.load("Peaberry")
+
 
 class Number:
     def __init__(self):
@@ -23,6 +29,7 @@ class Number:
         for x in range(len(test)):
             butt = Label(
                 text=test[x],
+                font_name="Peaberry",
                 font_size=36,
                 x=self.starting_x + x * 32,  # Adjust the x-coordinate for spacing
                 y=self.starting_y,

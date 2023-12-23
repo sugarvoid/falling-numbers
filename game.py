@@ -2,7 +2,8 @@ from kgo_lib.timer import Timer
 from number import Number
 
 from pyglet.text import Label
-from pyglet.window import key
+from pyglet.window import Window, key
+
 
 import pyglet
 
@@ -14,7 +15,7 @@ class GameStates:
     GAME_OVER = 3
     TOP_SCORES = 4
 
-class Game(pyglet.window.Window):
+class Game(Window):
     def __init__(self):
         super().__init__(width= 500, height=700, caption = "Falling Numbers")
         self.current_number: Number = Number()
