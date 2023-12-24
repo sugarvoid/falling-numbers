@@ -1,11 +1,12 @@
 from kgo_lib.timer import Timer
+
 from number import Number
 
 from pyglet.text import Label
 from pyglet.window import Window, key
+from pyglet.graphics import Batch
+from pyglet import clock
 
-
-import pyglet
 
 
 class GameStates:
@@ -18,17 +19,19 @@ class GameStates:
 class Game(Window):
     def __init__(self):
         super().__init__(width= 500, height=700, caption = "Falling Numbers")
-        self.current_number: Number = Number()
+        self.current_number: Number = Number(starting_x=100)
         self.state: int
         self.main_menu_label_1 = Label(text="Falling Numbers", x=10, y=460, font_size=36)
 
-        self.current_number.add_to_screen()
+        self.all_numbers_batch = Batch()
+
+        self.current_number.add_to_screen(batch=self.all_numbers_batch)
         self.test_timer: Timer = Timer(5)
     
     def setup(self):
         self.state = GameStates.MAIN_MENU
         self.state = 1
-        pyglet.clock.schedule_interval(self.on_update, 1/60.0)
+        clock.schedule_interval(self.on_update, 1/60.0)
         self.test_timer.start()
         print('ready')
     
@@ -40,6 +43,7 @@ class Game(Window):
 
     def _update(self, dt):
         self.test_timer.update(dt)
+        self.current_number.update(dt)
         return
     
     def on_key_press(self, symbol, modifiers):
@@ -49,7 +53,7 @@ class Game(Window):
         self.main_menu_label_1.draw()
     
     def _draw_gameplay(self):
-        self.current_number.draw()
+        self.all_numbers_batch.draw()
     
     
     def on_draw(self):
@@ -72,6 +76,7 @@ class Game(Window):
                 print('Numpad 4 was pressed')
             case key.NUM_5:
                 print('Numpad 5 was pressed')
+                self.current_number.labels[2].color = (100, 255, 100, 255)
             case key.NUM_6:
                 print('Numpad 6 was pressed')
             case key.NUM_7:

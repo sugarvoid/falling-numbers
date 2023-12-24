@@ -3,31 +3,32 @@ from pyglet.text import Label
 from pyglet.graphics import Batch
 from pyglet import font
 
+from random import randint
+
 font.add_file("PeaberryMono.ttf")
 print('loading font')
 font.load("Peaberry")
 
 
 class Number:
-    def __init__(self):
+    def __init__(self, starting_x: float=50):
         self.value:str = ''
         self.current_element: int
-        
+        self.fall_speed = 30
         self.full_label: list
-        self.starting_x: int = 50
-        self.starting_y: int = 50
+        self.starting_x: int = starting_x
+        self.starting_y: int = 600
         self.batch = Batch()
         self.labels: list = []
     
     def go_to_next_char(self) -> None:
         self.current_element += 1
     
-    def add_to_screen(self) -> None:
-        test = ['1', '2', '3', '4']
-        test = "1234"
+    def add_to_screen(self, batch: Batch) -> None:
+        test = Number._generate_number(4)
 
         for x in range(len(test)):
-            butt = Label(
+            _lbl = Label(
                 text=test[x],
                 font_name="Peaberry",
                 font_size=36,
@@ -35,14 +36,28 @@ class Number:
                 y=self.starting_y,
                 anchor_x='center',
                 anchor_y='center',
-                batch=self.batch
+                batch=batch
             ) 
-            self.labels.append(butt)
+            self.labels.append(_lbl)
         
 
 
     def draw(self) -> None:
+        return
         self.batch.draw()
+    
+    def update(self, dt) -> None:
+        self._update_label(dt)
 
-    def update_label(self) -> None:
-        pass
+    
+    def _update_label(self, dt) -> None:
+        for lbl in self.labels:
+            lbl.y = lbl.y - (self.fall_speed * dt)
+    
+    @staticmethod
+    def _generate_number(len: int=4) -> list[str]:
+        _nums: list = []
+        for i in range(len):
+            _nums.append(str(randint(0, 9)))
+        
+        return _nums
