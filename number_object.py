@@ -10,7 +10,7 @@ print('loading font')
 font.load("Peaberry")
 
 
-class NumberList:
+class NumberObject:
     def __init__(self, starting_x: float=50):
         self.value:str = ''
         self.current_element: int
@@ -20,12 +20,14 @@ class NumberList:
         self.starting_y: int = 600
         self.batch = Batch()
         self.labels: list = []
+        self.x = 0
+        self.y = 0
     
     def go_to_next_char(self) -> None:
         self.current_element += 1
     
     def add_to_screen(self, batch: Batch) -> None:
-        test = NumberList._generate_number(4)
+        test = NumberObject._generate_number(4)
 
         for x in range(len(test)):
             _lbl = Label(
@@ -53,6 +55,8 @@ class NumberList:
     def _update_label(self, dt) -> None:
         for lbl in self.labels:
             lbl.y = lbl.y - (self.fall_speed * dt)
+        self.y = self.labels[0].y
+            
     
     @staticmethod
     def _generate_number(len: int=4) -> list[str]:
