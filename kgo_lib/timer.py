@@ -17,9 +17,11 @@ class Timer:
     Updating:
         new_timer.update(delta_time)
     """
-    def __init__(self, finished_time: int=1, callback: Callable=None) -> None:
-        self.time = 0
+    def __init__(self, finished_time: int=1, callback: Callable=None, repeat:bool=False) -> None:
+        self.elapsed_time: float = 0
         self.is_paused: bool = True
+        #self.START_TIME = finished_time
+        self.is_repeat = repeat
         self.finished_time = finished_time
         self.is_finished: bool = False
         self.is_running: bool = False
@@ -27,15 +29,20 @@ class Timer:
         if self.on_done_func is None:
             self.on_done_func = self.print_done
     
-    def update(self, dt) -> None:
+    def update(self, dt: float) -> None:
         if not self.is_finished and not self.is_paused:
-            self.time += dt
-            if self.time > self.finished_time:
+            self.elapsed_time += dt
+            if self.elapsed_time > self.finished_time:
                 self.is_finished = True
                 self.is_running = False
                 self.on_done_func()
+                if self.is_repeat:
+                    print(f'{self} is starting again')
+                    self.start()
     
     def start(self):
+        self.elapsed_time = 0
+        self.is_finished = False
         self.is_running = True
         self.is_paused = False
 

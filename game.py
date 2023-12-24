@@ -31,7 +31,7 @@ class Game(Window):
         self.all_numbers_batch = Batch()
 
         #self.current_number.add_to_screen(batch=self.all_numbers_batch)
-        self.test_timer: Timer = Timer(3, callback=partial(self.add_new_number, 100))
+        self.test_timer: Timer = Timer(3, repeat=True, callback=partial(self.add_new_number, 100))
     
     def add_new_number(self, start_x: int) -> None:
         print('making a new number')
