@@ -1,6 +1,6 @@
 from kgo_lib.timer import Timer
 
-from number import Number
+from number_list import NumberList
 
 from pyglet.text import Label
 from pyglet.window import Window, key
@@ -19,7 +19,7 @@ class GameStates:
 class Game(Window):
     def __init__(self):
         super().__init__(width= 500, height=700, caption = "Falling Numbers")
-        self.current_number: Number = Number(starting_x=100)
+        self.current_number: NumberList = NumberList(starting_x=100)
         self.state: int
         self.main_menu_label_1 = Label(text="Falling Numbers", x=10, y=460, font_size=36)
 
