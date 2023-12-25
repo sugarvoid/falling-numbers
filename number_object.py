@@ -5,13 +5,15 @@ from pyglet import font
 
 from random import randint
 
+from kgo_lib.color import hex_to_rgba
+
 font.add_file("PeaberryMono.ttf")
 print('loading font')
 font.load("Peaberry")
 
 
-class NumberObject:
-    def __init__(self, starting_x: float=50):
+class NumberObject():
+    def __init__(self, starting_x: float=50, parent_batch: Batch=None):
         self.value:str = ''
         self.current_element: int
         self.fall_speed = 30
@@ -22,6 +24,9 @@ class NumberObject:
         self.labels: list = []
         self.x = 0
         self.y = 0
+        self.completed: bool = False
+        self.parent_batch: Batch = parent_batch
+        self.last_ele_checked: bool 
     
     def go_to_next_char(self) -> None:
         self.current_element += 1
@@ -56,10 +61,24 @@ class NumberObject:
         for lbl in self.labels:
             lbl.y = lbl.y - (self.fall_speed * dt)
         self.y = self.labels[0].y
+        if self.completed:
+            print('should die')
+            self.remove_self()
+        
+    
+    def check_key_pressed(self, key: str, element: int) -> None:
+        print(f'Key pressed: {key}\nElement was: {self.labels[element].text}')
+        if key == self.labels[element].text:
+            self.labels[element].color = hex_to_rgba("#20e01d")
+        else:
+            self.labels[element].color = hex_to_rgba("#eb102a")
+    
+    def remove_self(self):
+        del self
             
     
     @staticmethod
-    def _generate_number(len: int=4) -> list[str]:
+    def _generate_number(len: int=5) -> list[str]:
         _nums: list = []
         for i in range(len):
             _nums.append(str(randint(0, 9)))

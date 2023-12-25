@@ -1,8 +1,9 @@
+from kgo_lib.color import hex_to_rgba
+from kgo_lib.extra_math import clamp
 from kgo_lib.timer import Timer
 
 from number_object import NumberObject
 from functools import partial
-
 
 from pyglet.text import Label
 from pyglet.window import Window, key
@@ -32,10 +33,11 @@ class Game(Window):
 
         #self.current_number.add_to_screen(batch=self.all_numbers_batch)
         self.test_timer: Timer = Timer(3, repeat=True, callback=partial(self.add_new_number, 100))
+        self.current_pos: int = 0
     
     def add_new_number(self, start_x: int) -> None:
         print('making a new number')
-        _new_num = NumberObject(starting_x=start_x)
+        _new_num = NumberObject(starting_x=start_x, parent_batch=self.all_numbers_batch)
         _new_num.add_to_screen(batch=self.all_numbers_batch)
         self.number_holder.append(_new_num)
         self.test_timer.start()
@@ -82,26 +84,26 @@ class Game(Window):
     
     def parse_key(self, symbol: int) -> str:
         self.lowest_number = self.update_lowest_number(self.number_holder)
+        _key:str
         match symbol:
             case key.NUM_1:
-                print('Numpad 1 was pressed')
+                _key = '1'
             case key.NUM_2:
-                print('Numpad 2 was pressed')
+                _key = '2'
             case key.NUM_3:
-                print('Numpad 3 was pressed')
+                _key = '3'
             case key.NUM_4:
-                print('Numpad 4 was pressed')
+                _key = '4'
             case key.NUM_5:
-                print('Numpad 5 was pressed')
-                self.lowest_number.labels[2].color = (100, 255, 100, 255)
+                _key = '5'
             case key.NUM_6:
-                print('Numpad 6 was pressed')
+                _key = '6'
             case key.NUM_7:
-                print('Numpad 7 was pressed')
+                _key = '7'
             case key.NUM_8:
-                print('Numpad 8 was pressed')
+                _key = '8'
             case key.NUM_9:
-                print('Numpad 9 was pressed')
+                _key = '9'
             case key.NUM_ADD:
                 print('Numpad + was pressed')
             case key.NUM_SUBTRACT:
@@ -115,4 +117,9 @@ class Game(Window):
             case key.NUM_DECIMAL:
                 print('Numpad . was pressed')
             case key.NUM_0:
-                print('Numpad 0 was pressed')
+                _key = '0'
+        self.lowest_number.check_key_pressed(_key,self.current_pos)
+        self.current_pos += 1
+        self.current_pos = clamp(self.current_pos, 0, len(self.lowest_number.labels))
+        if self.current_pos == 4:
+            self.lowest_number.completed = True
