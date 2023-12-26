@@ -1,4 +1,4 @@
-from kgo_lib.color import hex_to_rgba
+
 from kgo_lib.extra_math import clamp
 from kgo_lib.timer import Timer
 
@@ -37,7 +37,7 @@ class Game(Window):
     
     def add_new_number(self, start_x: int) -> None:
         print('making a new number')
-        _new_num = NumberObject(starting_x=start_x, parent_batch=self.all_numbers_batch)
+        _new_num = NumberObject(starting_x=start_x, parent_holder=self.number_holder)
         _new_num.add_to_screen(batch=self.all_numbers_batch)
         self.number_holder.append(_new_num)
         self.test_timer.start()
@@ -51,7 +51,8 @@ class Game(Window):
     
 
     def update_lowest_number(self, numbers: list) -> NumberObject:
-        lowest_y = min(numbers, key=lambda x: x.y)
+        lowest_y: NumberObject = min(numbers, key=lambda x: x.y)
+        print(f'lowest number is {lowest_y.labels}')
         return lowest_y
 
     def _draw(self):
@@ -62,6 +63,8 @@ class Game(Window):
 
     def _update(self, dt):
         self.test_timer.update(dt)
+        if len(self.number_holder) > 0:
+            self.lowest_number = self.update_lowest_number(self.number_holder)
         for n in self.number_holder:
             n.update(dt)
         return
@@ -83,7 +86,7 @@ class Game(Window):
         self._update(dt)
     
     def parse_key(self, symbol: int) -> str:
-        self.lowest_number = self.update_lowest_number(self.number_holder)
+        
         _key:str
         match symbol:
             case key.NUM_1:
@@ -123,3 +126,5 @@ class Game(Window):
         self.current_pos = clamp(self.current_pos, 0, len(self.lowest_number.labels))
         if self.current_pos == 4:
             self.lowest_number.completed = True
+            self.lowest_number = self.update_lowest_number(self.number_holder)
+            self.current_pos = 0

@@ -20,12 +20,11 @@ class Timer:
     def __init__(self, finished_time: int=1, callback: Callable=None, repeat:bool=False) -> None:
         self.elapsed_time: float = 0
         self.is_paused: bool = True
-        #self.START_TIME = finished_time
-        self.is_repeat = repeat
-        self.finished_time = finished_time
+        self.is_repeat: bool = repeat
+        self.finished_time: int = finished_time
         self.is_finished: bool = False
         self.is_running: bool = False
-        self.on_done_func = callback
+        self.on_done_func: Callable = callback
         if self.on_done_func is None:
             self.on_done_func = self.print_done
     
@@ -40,13 +39,13 @@ class Timer:
                     print(f'{self} is starting again')
                     self.start()
     
-    def start(self):
+    def start(self) -> None:
         self.elapsed_time = 0
         self.is_finished = False
         self.is_running = True
         self.is_paused = False
 
-    def pause(self):
+    def pause(self) -> None:
         self.is_paused = not self.is_paused
     
     def print_done(self) -> None:

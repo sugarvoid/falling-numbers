@@ -13,7 +13,7 @@ font.load("Peaberry")
 
 
 class NumberObject():
-    def __init__(self, starting_x: float=50, parent_batch: Batch=None):
+    def __init__(self, starting_x: float=50, parent_holder: list=None):
         self.value:str = ''
         self.current_element: int
         self.fall_speed = 30
@@ -25,7 +25,7 @@ class NumberObject():
         self.x = 0
         self.y = 0
         self.completed: bool = False
-        self.parent_batch: Batch = parent_batch
+        self.parent_holder: list = parent_holder
         self.last_ele_checked: bool 
     
     def go_to_next_char(self) -> None:
@@ -74,7 +74,9 @@ class NumberObject():
             self.labels[element].color = hex_to_rgba("#eb102a")
     
     def remove_self(self):
-        del self
+        for char in self.labels:
+            char.batch = None
+        self.parent_holder.remove(self)
             
     
     @staticmethod
