@@ -8,7 +8,6 @@ from random import randint
 from kgo_lib.color import hex_to_rgba
 
 font.add_file("PeaberryMono.ttf")
-print('loading font')
 font.load("Peaberry")
 
 
@@ -47,8 +46,6 @@ class NumberObject():
             ) 
             self.labels.append(_lbl)
         
-
-
     def draw(self) -> None:
         return
         self.batch.draw()
@@ -56,24 +53,20 @@ class NumberObject():
     def update(self, dt) -> None:
         self._update_label(dt)
 
-    
     def _update_label(self, dt) -> None:
         for lbl in self.labels:
             lbl.y = lbl.y - (self.fall_speed * dt)
         self.y = self.labels[0].y
         if self.completed:
-            print('should die')
             self.remove_self()
         
-    
     def check_key_pressed(self, key: str, element: int) -> None:
-        print(f'Key pressed: {key}\nElement was: {self.labels[element].text}')
         if key == self.labels[element].text:
             self.labels[element].color = hex_to_rgba("#20e01d")
         else:
             self.labels[element].color = hex_to_rgba("#eb102a")
     
-    def remove_self(self):
+    def remove_self(self) -> None:
         for char in self.labels:
             char.batch = None
         self.parent_holder.remove(self)
