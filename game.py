@@ -1,8 +1,11 @@
 
 
 import random
-from kgo_lib.extra_math import clamp
-from kgo_lib.timer import Timer
+
+
+from kgolib.extra_math import clamp
+
+from kgolib.timer import Timer
 
 from number_object import NumberObject
 from functools import partial

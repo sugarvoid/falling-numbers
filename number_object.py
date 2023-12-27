@@ -5,7 +5,7 @@ from pyglet import font
 
 from random import randint
 
-from kgo_lib.color import hex_to_rgba
+from kgolib.color import hex_to_rgba
 
 font.add_file("PeaberryMono.ttf")
 font.load("Peaberry")
