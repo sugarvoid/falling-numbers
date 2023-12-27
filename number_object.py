@@ -57,7 +57,7 @@ class NumberObject():
         for lbl in self.labels:
             lbl.y = lbl.y - (self.fall_speed * dt)
         self.y = self.labels[0].y
-        if self.completed:
+        if self.y <= -20 or self.completed:
             self.remove_self()
         
     def check_key_pressed(self, key: str, element: int) -> None:

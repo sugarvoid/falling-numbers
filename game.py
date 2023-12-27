@@ -6,6 +6,7 @@ import random
 from kgolib.extra_math import clamp
 
 from kgolib.timer import Timer
+from kgolib.color import hex_to_rgba
 
 from number_object import NumberObject
 from functools import partial
@@ -14,6 +15,7 @@ from enum import Enum
 from pyglet.text import Label
 from pyglet.window import Window, key
 from pyglet.graphics import Batch
+from pyglet.shapes import Line
 from pyglet import clock
 
 VALID_NUM: set = {'1','2','3','4','5','6','7','8','9','0'}
@@ -34,11 +36,14 @@ class Game(Window):
         self.main_menu_label_1: Label = Label(text="Falling Numbers", x=60, y=460, font_size=36)
         self.main_menu_label_2: Label = Label(text="Press [space]", x=140, y=360, font_size=24)
         self.all_numbers_batch: Batch = Batch()
-        self.test_timer: Timer = Timer(2, repeat=True, callback=partial(self.add_new_number))
+        self.test_timer: Timer = Timer(1, repeat=True, callback=partial(self.add_new_number))
         self.current_pos: int = 0
+
+        self.fail_line: Line = Line(0, 50, 500, 50, width=4,color=hex_to_rgba('#eb2135'))
+
     
     def add_new_number(self) -> None:
-        print('making a new number')
+        print(len(self.number_holder))
         _x = self.get_rand_starting_x()
         _new_num = NumberObject(starting_x=_x, parent_holder=self.number_holder)
         _new_num.add_to_screen(batch=self.all_numbers_batch)
@@ -64,6 +69,7 @@ class Game(Window):
             self._draw_gameplay()
 
     def _update(self, dt) -> None:
+        
         self.test_timer.update(dt)
         if len(self.number_holder) > 0:
             self.lowest_number = self.update_lowest_number(self.number_holder)
@@ -87,6 +93,7 @@ class Game(Window):
     
     def _draw_gameplay(self) -> None:
         self.all_numbers_batch.draw()
+        self.fail_line.draw()
     
     def on_draw(self) -> None:
         self.clear()
