@@ -36,7 +36,6 @@ class Timer:
                 self.is_running = False
                 self.on_done_func()
                 if self.is_repeat:
-                    print(f'{self} is starting again')
                     self.start()
     
     def start(self) -> None:

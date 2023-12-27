@@ -31,7 +31,7 @@ class Game(Window):
         self.main_menu_label_1: Label = Label(text="Falling Numbers", x=60, y=460, font_size=36)
         self.main_menu_label_2: Label = Label(text="Press [space]", x=140, y=360, font_size=24)
         self.all_numbers_batch: Batch = Batch()
-        self.test_timer: Timer = Timer(3, repeat=True, callback=partial(self.add_new_number))
+        self.test_timer: Timer = Timer(2, repeat=True, callback=partial(self.add_new_number))
         self.current_pos: int = 0
     
     def add_new_number(self) -> None:

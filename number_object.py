@@ -15,7 +15,7 @@ class NumberObject():
     def __init__(self, starting_x: float=50, parent_holder: list=None):
         self.value:str = ''
         self.current_element: int
-        self.fall_speed = 30
+        self.fall_speed = 40
         self.full_label: list
         self.starting_x: int = starting_x
         self.starting_y: int = 600
