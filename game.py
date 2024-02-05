@@ -52,7 +52,7 @@ class Game(Window):
         )
 
     def add_new_number(self) -> None:
-        print(len(self.number_holder))
+        # print(len(self.number_holder))
         _x = self.get_rand_starting_x()
         _new_num = NumberObject(starting_x=_x, parent_holder=self.number_holder)
         _new_num.add_to_screen(batch=self.all_numbers_batch)
